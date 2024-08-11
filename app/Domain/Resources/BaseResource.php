@@ -15,6 +15,6 @@ abstract class BaseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        throw new NotImplementedException('Implemente o método toArray na classe filha.');
+        throw new NotImplementedException('Implemente o método toArray na classe filha "' . get_class($this) . '"');
     }
 }
