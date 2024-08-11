@@ -2,6 +2,9 @@
 
 namespace App\Domain\Repository;
 
+use App\Domain\Models\Vehicle;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Classe base do repositório.
  * O repository é responsável por fazer a comunicação com o banco de dados.
@@ -14,7 +17,7 @@ abstract class BaseRepository
      * Essa propriedade deve ser setada na classe filha como ExemploModel::class.
      * @var string
      */
-    protected string $model;
+    protected $model;
 
     /**
      * @param array<string, mixed> $data
@@ -61,5 +64,16 @@ abstract class BaseRepository
     public function all()
     {
         return $this->model::all();
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return mixed
+     */
+    public function updateOrCreate(array $data)
+    {
+        $id = $data['id'];
+        unset($data['id']);
+        return $this->model::updateOrCreate(['id' => $id], $data);
     }
 }
