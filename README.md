@@ -19,6 +19,15 @@ docker-compose run laravel.test php artisan migrate
 ```
 Ou entrar dentro do container e rodar `php artisan migrate`
 
+# Endpoint POST /api/update-vehicles
+Esse é o endpoint base da aplicação, ele irá chamar os endpoints fictícios internos para atualizar a base local com os veículos.
+
+Para esse endpoint funcionar, é necessário que editemos o arquivo `/usr/local/etc/php/php.ini` e habilitemos as extensões abaixo:
+![image](https://github.com/user-attachments/assets/c32d3775-f01e-4bd2-8a24-2353d4809aa7)
+
+## Curl do endpoint para importação no Postman
+curl --location --request POST 'http://localhost/api/update-vehicles'
+
 # Código
 
 O código foi feito baseado em MVC com Services para lógica de negócio, Repository para contato isolado com o banco, e Resources para mostrar o conteúdo para o cliente da forma desejada. Para saber mais, leia [Movendo a Lógica de Sua Aplicação Para Services e Repositories](https://dev.to/tadeubdev/movendo-a-logica-de-sua-aplicacao-para-services-e-repositories-4lee) e [Eloquent: API Resources](https://laravel.com/docs/11.x/eloquent-resources).
