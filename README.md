@@ -1,6 +1,6 @@
 # Challenge Hunter
 
-Esse é um desafio de PHP com Laravel, Rest API.
+Esse é um desafio de PHP com Laravel.
 
 # Stacks
 - Laravel 11
@@ -35,3 +35,7 @@ O código foi feito baseado em MVC com Services para lógica de negócio, Reposi
 Foram criadas diversas classes abstratas para futuros manejos do conteúdo no banco, como get, update, delete, etc. A classe abstrata mais relevante é a `BaseController`, onde todos os métodos são propositalmente privados para que o método __call seja chamado e envolver a resposta em um Resource.
 
 Não foram removidas a lógica para a tabela de Users (model e migrations), para possível uso futuro para autenticação. Dito isso, o código ainda não possui autenticação fora das rotas fictícias.
+
+# Sugestão de uso
+
+Esse código poderia ser usado via Schedule do Laravel, para atualizar frequentemente os dados do banco.
