@@ -5,11 +5,12 @@ namespace App\Domain\Controllers;
 use App\Domain\Services\BaseService;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Classe base do controlador.
- * Todos os métodos devem ser privados, para que o método mágico __call possa ser utilizado, evelopando a resposta.
+ * Todos os métodos devem ser protegidos, para que o método mágico __call possa ser utilizado, evelopando a resposta.
  */
 abstract class BaseController
 {
@@ -18,13 +19,13 @@ abstract class BaseController
      * Essa propriedade deve ser setada na classe filha como ExemploResource::class.
      * @var string
      */
-    protected string $resource;
+    protected $resource;
     /**
      * O service que será utilizado pelo controlador.
      * Essa propriedade deve ser setada na classe filha como ExemploService::class.
      * @var string|BaseService
      */
-    protected string|BaseService $service;
+    protected $service;
 
     public function __construct()
     {
@@ -32,9 +33,29 @@ abstract class BaseController
     }
 
 
-    private function create(array $data)
+    protected function create(array $data)
     {
-        return $this->resource::create($data);
+        return $this->service->create($data);
+    }
+
+    protected function update(int $id, array $data)
+    {
+        return $this->service->update($id, $data);
+    }
+
+    protected function delete(int $id)
+    {
+        return $this->service->delete($id);
+    }
+
+    protected function find(int $id)
+    {
+        return $this->service->find($id);
+    }
+
+    protected function all()
+    {
+        return $this->service->all();
     }
 
     /**
@@ -43,16 +64,16 @@ abstract class BaseController
      */
     public function __call($method, $args)
     {
-        if (!($this->$method instanceof \Closure)) {
-            throw new Exception('Método não encontrado.');
-        }
-
         $response = $this->$method(...$args);
 
-        if ($response instanceof Collection) {
+        if ($response instanceof Collection || $response instanceof \Illuminate\Support\Collection) {
             return $this->resource::collection($response);
         }
 
-        return new $this->resource($response);
+        if ($response instanceof Model) {
+            return new $this->resource($response);
+        }
+
+        return $response;
     }
 }
