@@ -14,7 +14,7 @@ abstract class BaseService
      * Essa propriedade deve ser setada na classe filha como ExemploRepository::class.
      * @var string|BaseRepository
      */
-    protected string|BaseRepository $repository;
+    protected $repository;
 
     public function __construct()
     {
@@ -66,5 +66,14 @@ abstract class BaseService
     public function all()
     {
         return $this->repository->all();
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @return mixed
+     */
+    public function updateOrCreate(array $data)
+    {
+        return $this->repository->updateOrCreate($data);
     }
 }
